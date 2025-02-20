@@ -1,12 +1,12 @@
 import { StyleSheet, TextInput } from "react-native";
 import { MAX_TRADE_VALUE } from "../../../../../../utils/global";
 
-interface NumberInputProps {
+interface INumberInputProps {
   value: number | undefined,
   onValueChange: (value: number | undefined) => void
 }
 
-const NumberInput = (props: NumberInputProps) => {
+const NumberInput = (props: INumberInputProps) => {
 
   const getNewValue = (newTextValue: string) => {
 

@@ -1,10 +1,14 @@
 import {StyleSheet, View} from 'react-native';
 import AppText from '../../../AppText/AppText';
+import useBtcData from '../../../../hooks/useBtcData/useBtcData';
+import { round } from 'lodash'
 
 const TopBitcoinPriceTexts = () => {
+  const { currentBtcPrice } = useBtcData()
+
   return (
     <View style={styles.container}>
-      <AppText style={styles.btcText}>BTC {'\n'} 69,820.12 €</AppText>
+      <AppText style={styles.btcText}>BTC {'\n'} {round(currentBtcPrice!!, 2)} €</AppText>
       <AppText style={styles.pnlText}>
         PnL: <AppText style={styles.pnlValueText}>+12.3 €</AppText>
       </AppText>

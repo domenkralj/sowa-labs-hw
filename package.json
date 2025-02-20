@@ -10,10 +10,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.5.1",
     "lodash": "^4.17.21",
     "react": "18.3.1",
     "react-native": "0.77.1",
-    "react-native-svg": "^15.11.1"
+    "react-native-svg": "^15.11.1",
+    "react-redux": "^9.2.0",
+    "react-use": "^17.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -27,6 +30,7 @@
     "@react-native/metro-config": "0.77.1",
     "@react-native/typescript-config": "0.77.1",
     "@types/jest": "^29.5.13",
+    "@types/lodash": "^4.17.15",
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
     "eslint": "^8.19.0",

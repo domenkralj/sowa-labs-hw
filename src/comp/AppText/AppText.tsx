@@ -10,7 +10,7 @@ export enum AppTextFontWeight {
   ExtraBold = 'ExtraBold',
 }
 
-interface AppTextProps extends TextProps {
+interface IAppTextProps extends TextProps {
   children: ReactNode;
   // weight: AppTextFontWeight
   style?: StyleProp<TextStyle>;
@@ -20,7 +20,7 @@ interface AppTextProps extends TextProps {
   Component which ovverrides default Text component
   Presets fontFamily
 */
-const AppText: React.FC<AppTextProps> = ({style, children, ...props}) => {
+const AppText: React.FC<IAppTextProps> = ({style, children, ...props}) => {
   const flattenedStyle = style
     ? Array.isArray(style)
       ? Object.assign({}, ...style)
@@ -29,8 +29,6 @@ const AppText: React.FC<AppTextProps> = ({style, children, ...props}) => {
   const fontWeight = flattenedStyle.fontWeight;
 
   const getFontFamilyStyleProperty = () => {
-    console.log(fontWeight);
-
     switch (String(fontWeight)) {
       case '100':
       case '200':

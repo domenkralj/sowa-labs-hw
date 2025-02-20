@@ -7,3 +7,8 @@ export const appColors = {
 };
 
 export const MAX_TRADE_VALUE = 10 ** 5;
+
+export interface IBtcPriceValueItem {
+    priceInEur: number,
+    timestamp: number
+  }

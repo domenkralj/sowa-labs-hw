@@ -15,6 +15,9 @@ import TradeSection from './comp/TradeSection/TradeSection';
 import PreviousTransactionsSection from './comp/PreviousTransactionsSection/PreviousTransactionsSection';
 import LoadingSplashScreen from './comp/LoadingSplashScreen/LoadingSplashScreen';
 import IosNotSupportedScreen from './comp/IosNotSupportedScreen/IosNotSupportedScreen';
+import useAndroidBtcRetrieverModuleHandler from './hooks/useAndroidBtcRetrieverModuleHandler/useAndroidBtcRetrieverModuleHandler';
+import useBtcData from './hooks/useBtcData/useBtcData';
+import AppProviders from './comp/AppProviders/AppProviders';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -34,7 +37,6 @@ const AppLayout = (props: AppLayoutProps) => {
 };
 
 const App = () => {
-
   if (Platform.OS === 'ios')
     return (
       <AppLayout>
@@ -43,16 +45,19 @@ const App = () => {
     );
 
   return (
-    <AppLayout>
-      <AppContent />
-    </AppLayout>
+    <AppProviders>
+      <AppLayout>
+        <AppContent />
+      </AppLayout>
+    </AppProviders>
   );
 };
 
 const AppContent = () => {
-  const isLoading = false;
+  useAndroidBtcRetrieverModuleHandler();
+  const btcData = useBtcData();
 
-  if (isLoading) return <LoadingSplashScreen />;
+  if (!btcData) return <LoadingSplashScreen />;
 
   return (
     <>

@@ -6,18 +6,7 @@ import {NativeModules} from 'react-native';
 import { useEffect } from 'react';
 
 const PreviousTransactionsSection = () => {
-  const isEmpty = false
-  const {BitconRetrieverModule} = NativeModules;
-
-  useEffect(() => {
-    const priceListener = DeviceEventEmitter.addListener(
-      'bitcoinPriceUpdated',
-      (bitcoinPrice) => {
-        console.log("Here working")
-        ToastAndroid.show('A pikachu appeared nearby !' + bitcoinPrice, ToastAndroid.SHORT);
-      }
-    );
-  }, [])
+  const isEmpty = true
 
   return (
     <View style={styles.outterContainer}>
@@ -25,12 +14,6 @@ const PreviousTransactionsSection = () => {
         {
           !isEmpty ?
           <>
-          <Button 
-            title='test'
-            onPress={() => {
-              BitconRetrieverModule.sayHello('testName', 'testLocation');
-            }}
-          />
             <PreviousTransaction />
             <PreviousTransaction />
             <PreviousTransaction />

@@ -11,12 +11,12 @@ import CloseModalButton from './comp/CloseModalButton/CloseModalButton';
 import { useState } from 'react';
 import NumberInput from './comp/NumberInput/NumberInput';
 
-interface MakeTradeModalProps {
+interface IMakeTradeModalProps {
   isOpen: boolean;
   onDismiss: () => void;
 }
 
-const MakeTradeModal = (props: MakeTradeModalProps) => {
+const MakeTradeModal = (props: IMakeTradeModalProps) => {
   const [eurTradeValue, setEurTradeValue] = useState<number | undefined>(undefined)
   const [btcTradeValue, setBtcTradeValue] = useState<number | undefined>(undefined)
 

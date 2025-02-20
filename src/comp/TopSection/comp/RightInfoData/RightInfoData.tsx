@@ -7,30 +7,30 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-end',
   },
-  textItem: {
-    textAlign: "right"
-  },
 
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  textItem: {
+    textAlign: 'right',
+    lineHeight: 16
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+  textItemBold: {
+    fontWeight: 600,
+  }
 });
 
 const RightInfoData = () => {
   return (
     <View style={styles.container}>
-      <AppText style={styles.textItem}>Availble</AppText>
-      <AppText style={styles.textItem}>Second text</AppText>
-      <AppText style={styles.textItem}>Third text</AppText>
+      <AppText style={styles.textItem}>Available</AppText>
+
+      <AppText style={styles.textItem}>
+        0.12345678{' '}
+        <AppText style={styles.textItemBold}>BTC</AppText>
+      </AppText>
+
+      <AppText style={styles.textItem}>
+        224,01{' '}
+        <AppText style={styles.textItemBold}>€</AppText>
+      </AppText>
     </View>
   );
 };

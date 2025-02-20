@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import BisonIcon from './comp/BisonIcon/BisonIcon';
+import {StatusBar, StyleSheet, View} from 'react-native';
 import RightInfoData from './comp/RightInfoData/RightInfoData';
+import BisonIcon from '../BisonIcon/BisonIcon';
 
 const TopSection = () => {
   return (
@@ -14,6 +14,7 @@ const TopSection = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: StatusBar.currentHeight,
     width: "100%",
     height: 60,
     display: 'flex',

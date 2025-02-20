@@ -1,10 +1,23 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Button, DeviceEventEmitter, StyleSheet, Text, ToastAndroid, View} from 'react-native';
 import {appColors} from '../../utils/global';
 import AppText from '../AppText/AppText';
 import PreviousTransaction from './comp/PreviousTransaction/PreviousTransaction';
+import {NativeModules} from 'react-native';
+import { useEffect } from 'react';
 
 const PreviousTransactionsSection = () => {
   const isEmpty = false
+  const {BitconRetrieverModule} = NativeModules;
+
+  useEffect(() => {
+    const priceListener = DeviceEventEmitter.addListener(
+      'bitcoinPriceUpdated',
+      (bitcoinPrice) => {
+        console.log("Here working")
+        ToastAndroid.show('A pikachu appeared nearby !' + bitcoinPrice, ToastAndroid.SHORT);
+      }
+    );
+  }, [])
 
   return (
     <View style={styles.outterContainer}>
@@ -12,6 +25,12 @@ const PreviousTransactionsSection = () => {
         {
           !isEmpty ?
           <>
+          <Button 
+            title='test'
+            onPress={() => {
+              BitconRetrieverModule.sayHello('testName', 'testLocation');
+            }}
+          />
             <PreviousTransaction />
             <PreviousTransaction />
             <PreviousTransaction />

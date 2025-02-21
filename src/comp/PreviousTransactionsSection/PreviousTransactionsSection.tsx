@@ -6,7 +6,7 @@ import {NativeModules} from 'react-native';
 import { useEffect } from 'react';
 
 const PreviousTransactionsSection = () => {
-  const isEmpty = true
+  const isEmpty = false 
 
   return (
     <View style={styles.outterContainer}>

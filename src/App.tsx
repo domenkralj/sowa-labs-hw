@@ -57,7 +57,7 @@ const AppContent = () => {
   useAndroidBtcRetrieverModuleHandler();
   const btcData = useBtcData();
 
-  if (!btcData) return <LoadingSplashScreen />;
+  if (!btcData.btcPrices) return <LoadingSplashScreen />;
 
   return (
     <>

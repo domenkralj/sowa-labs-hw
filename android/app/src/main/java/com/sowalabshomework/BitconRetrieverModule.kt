@@ -42,7 +42,8 @@ class BitconRetrieverModule(reactContext: ReactApplicationContext) : ReactContex
     handler.removeCallbacks(fetchPriceRunnable)
   }
 
-  private fun getBitcoinPrice() {
+  @ReactMethod
+  fun getBitcoinPrice() {
 
     val request = Request.Builder()
       .url("https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=eur&days=30&interval=daily")

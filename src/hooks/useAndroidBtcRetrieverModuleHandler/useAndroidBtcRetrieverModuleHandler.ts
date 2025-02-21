@@ -1,7 +1,7 @@
 import {DeviceEventEmitter, NativeModules} from 'react-native';
 import {useEffectOnce} from 'react-use';
 import {useDispatch} from 'react-redux';
-import {setBtcPrices} from '../../utils/store';
+import {setBtcPrices, setBtcPricesLoadingError} from '../../utils/store';
 import { IBtcPriceValueItem } from '../../utils/global';
 
 /*
@@ -15,24 +15,24 @@ const useAndroidBtcRetrieverModuleHandler = () => {
   const dispatch = useDispatch();
 
   useEffectOnce(() => {
-    console.log("Listneners set")
 
     const priceListener = DeviceEventEmitter.addListener(
       'bitcoinPricesUpdated',
       (bitcoinPrices: IBtcPriceValueItem[]) => {
+        console.log("bitcoinPricesUpdated called")
         dispatch(setBtcPrices(bitcoinPrices))
+        dispatch(setBtcPricesLoadingError(undefined))
       },
     );
 
     const errorListener = DeviceEventEmitter.addListener(
       'bitcoinPriceError',
       errorMessage => {
-        console.log('errorMessage', errorMessage);
-        // TODO, SAVE TO REDUX
+        console.log("bitcoinPriceError called")
+        dispatch(setBtcPricesLoadingError(errorMessage))
       },
     );
     
-    console.log("start fetching set")
     BitconRetrieverModule.startFetchingBitcoinPrice();
 
     return () => {

@@ -2,10 +2,11 @@ import {
   StyleSheet,
   View
 } from 'react-native';
-import GraphLabels from './comp/GraphLabels/GraphLabels';
 import GraphDrawing from './comp/GraphDrawing/GraphDrawing';
+import GraphLabels from './comp/GraphLabels/GraphLabels';
 
-const BitcoinGraph = () => {
+
+const BitcoinGraphSection = () => {
   return (
     <View style={styles.container}>
       <View style={styles.graphContainer}>
@@ -44,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BitcoinGraph;
+export default BitcoinGraphSection;

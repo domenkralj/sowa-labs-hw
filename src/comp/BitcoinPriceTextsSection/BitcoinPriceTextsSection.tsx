@@ -1,10 +1,9 @@
 import {StyleSheet, View} from 'react-native';
-import AppText from '../../../AppText/AppText';
-import useBtcData from '../../../../hooks/useBtcData/useBtcData';
-import { round } from 'lodash'
-import { formatCashNumber } from '../../../../utils/global';
+import AppText from '../AppText/AppText';
+import useBtcData from '../../hooks/useBtcData/useBtcData';
+import { formatCashNumber } from '../../utils/global';
 
-const TopBitcoinPriceTexts = () => {
+const BitcoinPriceTextsSection = () => {
   const { currentBtcPrice } = useBtcData()
 
   return (
@@ -40,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TopBitcoinPriceTexts;
+export default BitcoinPriceTextsSection;

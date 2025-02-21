@@ -10,7 +10,7 @@ const NumberInput = (props: INumberInputProps) => {
 
   const getNewValue = (newTextValue: string) => {
 
-    const numericValue = Number(newTextValue.replace(/[^0-9]/g, ''));
+    const numericValue = newTextValue.replace(/[^0-9.,]/g, '');
     if (numericValue < 0) return 0
     if (numericValue > MAX_TRADE_VALUE) return MAX_TRADE_VALUE
     return numericValue
@@ -32,12 +32,13 @@ const NumberInput = (props: INumberInputProps) => {
 
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 1,
-    borderColor: 'gray',
+    borderBottomWidth: 1,
+    borderColor: '#BABABA',
     padding: 10,
     borderRadius: 5,
     fontSize: 16,
-    textAlign: 'right'
+    textAlign: 'right',
+    width: '100%'
   }
 });
 

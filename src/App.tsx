@@ -7,10 +7,8 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import TopSection from './comp/TopSection/TopSection';
-import GraphSection from './comp/GraphSection/GraphSection';
 import TradeSection from './comp/TradeSection/TradeSection';
 import PreviousTransactionsSection from './comp/PreviousTransactionsSection/PreviousTransactionsSection';
 import LoadingSplashScreen from './comp/LoadingSplashScreen/LoadingSplashScreen';
@@ -18,6 +16,9 @@ import IosNotSupportedScreen from './comp/IosNotSupportedScreen/IosNotSupportedS
 import useAndroidBtcRetrieverModuleHandler from './hooks/useAndroidBtcRetrieverModuleHandler/useAndroidBtcRetrieverModuleHandler';
 import useBtcData from './hooks/useBtcData/useBtcData';
 import AppProviders from './comp/AppProviders/AppProviders';
+import BitcoinGraphSection from './comp/BitcoinGraphSection/BitcoinGraphSection';
+import BitcoinPriceTextsSection from './comp/BitcoinPriceTextsSection/BitcoinPriceTextsSection';
+import BtcLoadingErrorScreen from './comp/BtcLoadingErrorScreen/BtcLoadingErrorScreen';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -57,12 +58,14 @@ const AppContent = () => {
   useAndroidBtcRetrieverModuleHandler();
   const btcData = useBtcData();
 
+  if (btcData.error) return <BtcLoadingErrorScreen />
   if (!btcData.btcPrices) return <LoadingSplashScreen />;
 
   return (
     <>
       <TopSection />
-      <GraphSection />
+      <BitcoinPriceTextsSection />
+      <BitcoinGraphSection />
       <TradeSection />
       <PreviousTransactionsSection />
     </>

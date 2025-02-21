@@ -2,13 +2,14 @@ import {createSlice, configureStore, PayloadAction} from '@reduxjs/toolkit';
 import { IBtcPriceValueItem } from './global';
 
 export interface IAppStoreState {
-  btcPrices: IBtcPriceValueItem[] | undefined; // [timestamp, price]
-  trades: boolean
+  btcPrices: IBtcPriceValueItem[] | undefined;
+  btcPricesLoadingError: string | undefined
+
 }
 
 const initialState: IAppStoreState = {
   btcPrices: undefined,
-  trades: false
+  btcPricesLoadingError: undefined
 }
 
 const globalSlice = createSlice({
@@ -17,12 +18,15 @@ const globalSlice = createSlice({
   reducers: {
     setBtcPrices: (state, action: PayloadAction<IBtcPriceValueItem[]>) => {
       state.btcPrices = action.payload;
+    },
+    setBtcPricesLoadingError: (state, action: PayloadAction<string | undefined>) => {
+      state.btcPricesLoadingError = action.payload
     }
   }
 });
 
-export const {setBtcPrices} = globalSlice.actions;
+export const {setBtcPrices, setBtcPricesLoadingError} = globalSlice.actions;
 
 export const globalAppReduxStore = configureStore({
-  reducer: globalSlice.reducer,
+  reducer: globalSlice.reducer
 });

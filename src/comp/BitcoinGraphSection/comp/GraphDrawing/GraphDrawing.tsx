@@ -1,8 +1,8 @@
 import {useWindowDimensions} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
 import {Circle} from 'react-native-svg';
-import useBtcData from '../../../../../../hooks/useBtcData/useBtcData';
-import { appColors } from '../../../../../../utils/global';
+import useBtcData from '../../../../hooks/useBtcData/useBtcData';
+import { appColors } from '../../../../utils/global';
 
 const GraphDrawing = () => {
   const windowWidth = useWindowDimensions().width;
@@ -58,7 +58,7 @@ const GraphDrawing = () => {
     index: number;
   }) => {
     if (index === dataItems.length - 1) {
-      return <Circle cx={x} cy={y} r={4} fill={appColors.darkBlue} />;
+      return <Circle key={index} cx={x} cy={y} r={4} fill={appColors.darkBlue} />;
     }
   };
 

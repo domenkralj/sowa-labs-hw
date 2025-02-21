@@ -27,6 +27,7 @@ const TradeSection = () => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
+    marginTop: 22,
     paddingInline: 24,
   },
   tradeButton: {

@@ -8,8 +8,10 @@ import {
   View,
 } from 'react-native';
 import CloseModalButton from './comp/CloseModalButton/CloseModalButton';
-import { useState } from 'react';
+import {useState} from 'react';
 import NumberInput from './comp/NumberInput/NumberInput';
+import BuySellButtons from './comp/BuySellButtons/BuySellButtons';
+import ErrorMessage from './comp/ErrorMessage/ErrorMessage';
 
 interface IMakeTradeModalProps {
   isOpen: boolean;
@@ -17,10 +19,14 @@ interface IMakeTradeModalProps {
 }
 
 const MakeTradeModal = (props: IMakeTradeModalProps) => {
-  const [eurTradeValue, setEurTradeValue] = useState<number | undefined>(undefined)
-  const [btcTradeValue, setBtcTradeValue] = useState<number | undefined>(undefined)
+  const [eurTradeValue, setEurTradeValue] = useState<number | undefined>(
+    undefined,
+  );
+  const [btcTradeValue, setBtcTradeValue] = useState<number | undefined>(
+    undefined,
+  );
 
-  if (!props.isOpen) return null;
+  const [error, setError] = useState<string | undefined>("Not enough bitcoin to buy. Please add more bitcoins.")
 
   return (
     <Modal
@@ -33,14 +39,23 @@ const MakeTradeModal = (props: IMakeTradeModalProps) => {
         <View style={styles.modalView}>
           <View style={styles.modalContent}>
             <View style={styles.topCloseContainer}>
-              <CloseModalButton onPress={() => props.onDismiss()}/>
+              <CloseModalButton onPress={() => props.onDismiss()} />
+            </View>
+            <View style={styles.makeTransactionContainer}>
+              <View style={styles.btcEurInputBox}>
+                <NumberInput
+                  value={eurTradeValue}
+                  onValueChange={setEurTradeValue}
+                />
+                <NumberInput
+                  value={eurTradeValue}
+                  onValueChange={setEurTradeValue}
+                />
+              </View>
+              { error && <ErrorMessage message={error} />}
+              <BuySellButtons />
             </View>
           </View>
-
-          <NumberInput
-            value={eurTradeValue}
-            onValueChange={setEurTradeValue}
-          />
         </View>
       </View>
     </Modal>
@@ -70,15 +85,27 @@ const styles = StyleSheet.create({
     elevation: 0,
     display: 'flex',
     flexDirection: 'column',
-    minWidth: 200
+    minWidth: 200,
   },
   topCloseContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
+    width: '100%',
+  },
+  makeTransactionContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 32,
     width: '100%'
-  }
+  },
+  btcEurInputBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 14,
+    width: 'auto'
+  },
 });
 
 export default MakeTradeModal;

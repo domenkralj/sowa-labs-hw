@@ -1,9 +1,5 @@
 import {
-  Button,
-  DeviceEventEmitter,
   StyleSheet,
-  Text,
-  ToastAndroid,
   View,
 } from 'react-native';
 import {appColors} from '../../utils/utils';
@@ -49,6 +45,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 4
   },
   emptyTransactionsText: {
     fontSize: 12,

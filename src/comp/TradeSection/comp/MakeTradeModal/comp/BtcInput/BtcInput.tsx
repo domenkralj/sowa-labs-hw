@@ -5,22 +5,19 @@ import {appColors} from '../../../../../../utils/utils';
 interface IBtcInputProps {
   value: string;
   onChangeValue: (newValue: string) => void;
-  isError: boolean;
 }
 
 const BtcInput = (props: IBtcInputProps) => {
   return (
-    <View
-      style={[
-        styles.container,
-        props.isError ? {backgroundColor: appColors.lightRed} : {},
-      ]}>
+    <View style={styles.container}>
       <TextInput
         style={styles.input}
         keyboardType="numeric"
         value={props.value}
         onChangeText={props.onChangeValue}
         placeholder="Enter amount"
+        placeholderTextColor='#BABABA'
+        cursorColor={appColors.bisonDarkBlue}
       />
       <AppText style={styles.btcText}>BTC</AppText>
     </View>

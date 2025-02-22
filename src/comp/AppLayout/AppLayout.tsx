@@ -21,7 +21,7 @@ const AppLayout = (props: AppLayoutProps) => {
         contentInsetAdjustmentBehavior="automatic">
         <View style={styles.mainView}>
           <View style={styles.toastBox}>
-            <Toast/>
+            <Toast />
           </View>
           {props.children}
         </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     minHeight: '100%',
   },
   toastBox: {
-    zIndex: 1000000,
+    zIndex: 9999, elevation: 9999
   },
 });
 

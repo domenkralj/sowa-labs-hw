@@ -6,22 +6,19 @@ import React from 'react';
 interface IEurInputProps {
   value: string;
   onChangeValue: (newValue: string) => void;
-  isError: boolean;
 }
 
 const EurInput = (props: IEurInputProps) => {
   return (
-    <View
-      style={[
-        styles.container,
-        props.isError ? {backgroundColor: appColors.lightRed} : {},
-      ]}>
+    <View style={styles.container}>
       <TextInput
         style={styles.input}
         keyboardType="numeric"
         value={props.value}
         onChangeText={props.onChangeValue}
-        placeholder='Enter amount'
+        placeholder="Enter amount"
+        placeholderTextColor="#BABABA"
+        cursorColor={appColors.bisonDarkBlue}
       />
       <AppText style={styles.eurText}>EUR</AppText>
     </View>

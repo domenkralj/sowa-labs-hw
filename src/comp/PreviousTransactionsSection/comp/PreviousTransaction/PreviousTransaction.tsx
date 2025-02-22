@@ -13,7 +13,7 @@ type TPreviousTransactionProps = {
 
 const PreviousTransaction = (props: TPreviousTransactionProps) => {
   const buySellText = (() => {
-    if (props.trade.isInitalTransaction) return 'Gif';
+    if (props.trade.isInitalTransaction) return 'Gift';
     if (props.trade.boughtBtc) return 'Buy';
     return 'Sell';
   })();
@@ -27,7 +27,7 @@ const PreviousTransaction = (props: TPreviousTransactionProps) => {
         {props.trade.boughtBtc ? ' -' : ' +'}
         {formatCashNumber(props.trade.eurVolume)} €
       </AppText>
-      <AppText>{formatTime(props.trade.timestamp)}</AppText>
+      <AppText style={styles.descriptionText}>{formatTime(props.trade.timestamp)}</AppText>
     </View>
   );
 };

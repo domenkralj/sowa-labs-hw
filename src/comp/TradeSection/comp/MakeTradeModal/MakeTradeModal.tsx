@@ -1,16 +1,13 @@
-import {
-  Modal,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {Modal, StyleSheet, View} from 'react-native';
 import CloseModalButton from './comp/CloseModalButton/CloseModalButton';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import BuySellButtons from './comp/BuySellButtons/BuySellButtons';
 import ErrorMessage from './comp/ErrorMessage/ErrorMessage';
 import EurInput from './comp/EurInput/EurInput';
 import BtcInput from './comp/BtcInput/BtcInput';
-import { isNumber } from 'lodash';
+import {isNumber} from 'lodash';
 import useBtcData from '../../../../hooks/useBtcData/useBtcData';
+import Toast from 'react-native-toast-message';
 
 interface IMakeTradeModalProps {
   isOpen: boolean;
@@ -18,51 +15,68 @@ interface IMakeTradeModalProps {
 }
 
 const MakeTradeModal = (props: IMakeTradeModalProps) => {
-  const {currentBtcPrice} = useBtcData()
+  const {currentBtcPrice} = useBtcData();
 
-  const [eurTradeValueString, setEurTradeValueString] = useState<string>("");
-  const [btcTradeValueString, setBtcTradeValue] = useState<string>("");
+  const [eurTradeValueString, setEurTradeValueString] = useState<string>('');
+  const [btcTradeValueString, setBtcTradeValueString] = useState<string>('');
 
-  const isEurTradeValueInValidFormat = isNumber(Number(eurTradeValueString)) && !isNaN(Number(eurTradeValueString))
-  const isBtcTradeValueInValidFormat = isNumber(Number(btcTradeValueString)) && !isNaN(Number(btcTradeValueString))
-  const areTradeValuesInValidFormat = isEurTradeValueInValidFormat && isBtcTradeValueInValidFormat
+  const isEurTradeValueInValidFormat =
+    isNumber(Number(eurTradeValueString)) &&
+    !isNaN(Number(eurTradeValueString)) &&
+    Number(btcTradeValueString) > 0;
+  const isBtcTradeValueInValidFormat =
+    isNumber(Number(btcTradeValueString)) &&
+    !isNaN(Number(btcTradeValueString)) &&
+    Number(btcTradeValueString) > 0;
 
-  const eurTradeValueNum = isEurTradeValueInValidFormat ? Number(eurTradeValueString) : undefined
-  const btcTradeValueNum = isEurTradeValueInValidFormat ? Number(btcTradeValueString) : undefined
+  const eurTradeValueNum = isEurTradeValueInValidFormat
+    ? Number(eurTradeValueString)
+    : undefined;
+  const btcTradeValueNum = isEurTradeValueInValidFormat
+    ? Number(btcTradeValueString)
+    : undefined;
 
-  const [error, setError] = useState<string | undefined>(undefined)
-  
-  const onEurTradeValueChange = (newValue: string) => {  
-    setError(undefined)  
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  const onEurTradeValueChange = (newValue: string) => {
+    setError(undefined);
     const cleanedValue = newValue.replace(/[^0-9.,]/g, '');
 
     if (!cleanedValue) {
-      setEurTradeValueString("")
-      setBtcTradeValue("")
-      return
+      setEurTradeValueString('');
+      setBtcTradeValueString('');
+      return;
     }
 
-    setEurTradeValueString(cleanedValue)
-    const numValue = Number(cleanedValue.replace(/[.,]/g, ""))
+    setEurTradeValueString(cleanedValue);
+    const numValue = Number(cleanedValue.replace(/[.,]/g, ''));
 
-    setBtcTradeValue(String(numValue / currentBtcPrice!))
-  }
+    setBtcTradeValueString(String(numValue / currentBtcPrice!));
+  };
 
   const onBtcTradeValueChange = (newValue: string) => {
-    setError(undefined)
+    setError(undefined);
     const cleanedValue = newValue.replace(/[^0-9.,]/g, '');
 
     if (!cleanedValue) {
-      setEurTradeValueString("")
-      setBtcTradeValue("")
-      return
+      setEurTradeValueString('');
+      setBtcTradeValueString('');
+      return;
     }
 
-    setBtcTradeValue(cleanedValue)
-    const numValue = Number(cleanedValue.replace(/[.,]/g, ""))
+    setBtcTradeValueString(cleanedValue);
+    const numValue = Number(cleanedValue.replace(/[,]/g, ''));
 
-    setEurTradeValueString(String(currentBtcPrice! * numValue))
-  }
+    setEurTradeValueString(String(currentBtcPrice! * numValue));
+  };
+
+  // If the price changes while the modal is open and values are already entered in the inputs,
+  // recalculate the values accordingly.
+  useEffect(() => {
+    if (isEurTradeValueInValidFormat && isBtcTradeValueInValidFormat) {
+      setBtcTradeValueString(String(eurTradeValueNum! / currentBtcPrice!));
+    }
+  }, [currentBtcPrice]);
 
   return (
     <Modal
@@ -79,25 +93,25 @@ const MakeTradeModal = (props: IMakeTradeModalProps) => {
             </View>
             <View style={styles.makeTransactionContainer}>
               <View style={styles.btcEurInputBox}>
-                <EurInput 
+                <EurInput
                   value={eurTradeValueString}
                   onChangeValue={onEurTradeValueChange}
-                  isError={!isEurTradeValueInValidFormat}
                 />
-                <BtcInput 
+                <BtcInput
                   value={btcTradeValueString}
                   onChangeValue={onBtcTradeValueChange}
-                  isError={!isBtcTradeValueInValidFormat}
                 />
               </View>
-              { error && <ErrorMessage message={error} />}
-              { !isEurTradeValueInValidFormat && <ErrorMessage message="Please enter a valid EUR value." /> }
-              { !isBtcTradeValueInValidFormat && <ErrorMessage message="Please enter a valid BTC value." /> }
+              {error && <ErrorMessage message={error} />}
               <BuySellButtons
                 eurTradeValue={eurTradeValueNum}
                 btcTradeValue={btcTradeValueNum}
-                onSellOrBought={props.onDismiss}
-                onError={(newError) => setError(newError)}
+                onSellOrBought={() => {
+                  setEurTradeValueString('');
+                  setBtcTradeValueString('');
+                  props.onDismiss();
+                }}
+                onError={newError => setError(newError)}
               />
             </View>
           </View>
@@ -143,14 +157,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     gap: 32,
-    width: '100%'
+    width: '100%',
   },
   btcEurInputBox: {
     marginTop: 12,
     display: 'flex',
     flexDirection: 'column',
     gap: 14,
-    width: 'auto'
+    width: 'auto',
   },
 });
 

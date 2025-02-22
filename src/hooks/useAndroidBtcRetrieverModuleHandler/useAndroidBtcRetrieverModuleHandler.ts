@@ -1,8 +1,7 @@
 import {DeviceEventEmitter, NativeModules} from 'react-native';
 import {useEffectOnce} from 'react-use';
-import {useDispatch} from 'react-redux';
-import {setBtcPrices, setBtcPricesLoadingError} from '../../utils/btcDataStore';
 import { IBtcPriceValueItem } from '../../utils/utils';
+import useBtcData from '../useBtcData/useBtcData';
 
 /*
   This hook:
@@ -12,7 +11,7 @@ import { IBtcPriceValueItem } from '../../utils/utils';
 const useAndroidBtcRetrieverModuleHandler = () => {
   const {BitconRetrieverModule} = NativeModules;
 
-  const dispatch = useDispatch();
+  const {setBtcPrices, setBtcPricesLoadingError} = useBtcData()
 
   useEffectOnce(() => {
 
@@ -20,8 +19,8 @@ const useAndroidBtcRetrieverModuleHandler = () => {
       'bitcoinPricesUpdated',
       (bitcoinPrices: IBtcPriceValueItem[]) => {
         console.log("bitcoinPricesUpdated called")
-        dispatch(setBtcPrices(bitcoinPrices))
-        dispatch(setBtcPricesLoadingError(undefined))
+        setBtcPrices(bitcoinPrices)
+        setBtcPricesLoadingError(undefined)
       },
     );
 
@@ -29,7 +28,7 @@ const useAndroidBtcRetrieverModuleHandler = () => {
       'bitcoinPriceError',
       errorMessage => {
         console.log("bitcoinPriceError called")
-        dispatch(setBtcPricesLoadingError(errorMessage))
+        setBtcPricesLoadingError(errorMessage)
       },
     );
     

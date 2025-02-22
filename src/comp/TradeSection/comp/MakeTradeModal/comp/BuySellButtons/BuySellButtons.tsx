@@ -3,7 +3,7 @@ import {appColors, ITradeItem} from '../../../../../../utils/utils';
 import AppText from '../../../../../AppText/AppText';
 import useTrades from '../../../../../../hooks/useTrades/useTrades';
 import {useState} from 'react';
-import {isNumber} from 'lodash';
+import {isNumber, round} from 'lodash';
 import Toast from 'react-native-toast-message';
 
 interface IBuySellButtonsProps {
@@ -16,11 +16,9 @@ interface IBuySellButtonsProps {
 const BuySellButtons = (props: IBuySellButtonsProps) => {
   const {currentEur, currentBtc, makeTrade} = useTrades();
 
-  // const [loading, setLoading] = useState<boolean>(false);
-
   const ValidateFields = () => {
     if (!isNumber(props.eurTradeValue) || props.eurTradeValue! <= 0) {
-      props.onError('Please select EUR amount.');
+      props.onError('Please enter EUR amount.');
       return false;
     }
     if (!isNumber(props.btcTradeValue) || props.btcTradeValue! <= 0) {
@@ -35,11 +33,6 @@ const BuySellButtons = (props: IBuySellButtonsProps) => {
 
     if (props.btcTradeValue! > currentBtc) {
       props.onError('You do not have enough BTC on your account.');
-      Toast.show({
-        type: 'error',
-        text1: 'Something went wrong...',
-        text2: 'You do not have enough BTC on your account. 😟'
-      });
       return;
     }
 
@@ -55,7 +48,7 @@ const BuySellButtons = (props: IBuySellButtonsProps) => {
     Toast.show({
       type: 'success',
       text1: 'Transaction Successful 🎉',
-      text2: `You've successfully sold BTC worth ${props.btcTradeValue}! 🚀`
+      text2: `You've successfully sold BTC worth ${round(props.btcTradeValue!, 6)}! 🚀`
     });
   };
 
@@ -63,11 +56,7 @@ const BuySellButtons = (props: IBuySellButtonsProps) => {
     if (!ValidateFields()) return;
 
     if (props.eurTradeValue! > currentEur) {
-      Toast.show({
-        type: 'error',
-        text1: 'Something went wrong...',
-        text2: 'You do not have enough EUR on your account. 😟'
-      });
+      props.onError('You do not have enough EUR on your account.');
       return;
     }
 
@@ -83,7 +72,7 @@ const BuySellButtons = (props: IBuySellButtonsProps) => {
     Toast.show({
       type: 'success',
       text1: 'Purchase Successful 🎉',
-      text2: `You've successfully bought BTC worth ${props.btcTradeValue}! 🚀`
+      text2: `You've successfully bought BTC worth ${round(props.btcTradeValue!, 6)}! 🚀`
     });
   };
 

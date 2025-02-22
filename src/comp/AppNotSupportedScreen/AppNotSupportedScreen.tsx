@@ -2,12 +2,12 @@ import {StyleSheet, View} from 'react-native';
 import BisonIcon from '../BisonIcon/BisonIcon';
 import AppText from '../AppText/AppText';
 
-const IosNotSupportedScreen = () => {
+const AppNotSupportedScreen = () => {
   return (
     <View style={styles.mainContainer}>
       <BisonIcon />
       <AppText style={styles.alertMainText}>
-        🛑 Ios devices are not supported.🛑
+        🛑 Only Android devices are supported.🛑
       </AppText>
       <AppText style={styles.alertDescriptionText}>
         Due to homework instructions (data is fetched in android module).
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IosNotSupportedScreen;
+export default AppNotSupportedScreen;

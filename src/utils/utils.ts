@@ -16,6 +16,14 @@ export interface IBtcPriceValueItem {
   timestamp: number;
 }
 
+export interface ITradeItem {
+  eurVolume: number;
+  btcVolume: number;
+  boughtBtc: boolean;
+  timestamp: number;
+  isInitalTransaction: boolean
+}
+
 /* Formats number in 69,820.12 */
 export const formatCashNumber = (value: number) => {
   return new Intl.NumberFormat('en-US', {
@@ -23,3 +31,15 @@ export const formatCashNumber = (value: number) => {
     maximumFractionDigits: 2,
   }).format(value)
 };
+
+/* Formats time in 11:12:03 */
+export const formatTime = (timestamp: number) => {
+  const date = new Date(timestamp);
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+export const STARTING_EUR_VALUE = 10000

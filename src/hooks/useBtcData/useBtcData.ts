@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
-import { IAppStoreState } from '../../utils/store';
+import { IBtcDataStoreState } from '../../utils/btcDataStore';
 
 const useBtcData = () => {
-  const btcPrices = useSelector((state: IAppStoreState) => state!.btcPrices)
-  const btcPricesLoadingError = useSelector((state: IAppStoreState) => state!.btcPricesLoadingError)
-
+  const btcPrices = useSelector((state: { btcDataStore: IBtcDataStoreState }) => state.btcDataStore.btcPrices)
+  const btcPricesLoadingError = useSelector((state: { btcDataStore: IBtcDataStoreState }) => state.btcDataStore.btcPricesLoadingError)
+  
   return {
     error: btcPricesLoadingError,
     btcPrices: btcPrices,

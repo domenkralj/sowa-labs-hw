@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import AppText from '../AppText/AppText';
 import BisonIcon from '../BisonIcon/BisonIcon';
-import {appColors} from '../../utils/global';
+import {appColors} from '../../utils/utils';
 import {useState} from 'react';
 
 const BtcLoadingErrorScreen = () => {

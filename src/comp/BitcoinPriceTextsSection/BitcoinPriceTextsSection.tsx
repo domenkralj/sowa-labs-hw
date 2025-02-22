@@ -1,7 +1,7 @@
 import {StyleSheet, View} from 'react-native';
 import AppText from '../AppText/AppText';
 import useBtcData from '../../hooks/useBtcData/useBtcData';
-import { formatCashNumber } from '../../utils/global';
+import { formatCashNumber } from '../../utils/utils';
 
 const BitcoinPriceTextsSection = () => {
   const { currentBtcPrice } = useBtcData()

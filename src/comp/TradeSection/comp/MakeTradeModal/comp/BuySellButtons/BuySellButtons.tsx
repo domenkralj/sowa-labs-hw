@@ -1,12 +1,91 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {appColors} from '../../../../../../utils/global';
+import {appColors, ITradeItem} from '../../../../../../utils/utils';
 import AppText from '../../../../../AppText/AppText';
+import useTrades from '../../../../../../hooks/useTrades/useTrades';
+import {useState} from 'react';
+import {isNumber} from 'lodash';
+import Toast from 'react-native-toast-message';
 
-const BuySellButtons = () => {
-  
-  const onSell = () => {}
+interface IBuySellButtonsProps {
+  btcTradeValue: number | undefined;
+  eurTradeValue: number | undefined;
+  onSellOrBought: () => void
+  onError: (error: string) => void;
+}
 
-  const onBuy = () => {}
+const BuySellButtons = (props: IBuySellButtonsProps) => {
+  const {currentEur, currentBtc, makeTrade} = useTrades();
+
+  // const [loading, setLoading] = useState<boolean>(false);
+
+  const ValidateFields = () => {
+    if (!isNumber(props.eurTradeValue) || props.eurTradeValue! <= 0) {
+      props.onError('Please select EUR amount.');
+      return false;
+    }
+    if (!isNumber(props.btcTradeValue) || props.btcTradeValue! <= 0) {
+      props.onError('Please select BTC amount.');
+      return false;
+    }
+    return true;
+  };
+
+  const onSell = () => {
+    if (!ValidateFields()) return;
+
+    if (props.btcTradeValue! > currentBtc) {
+      props.onError('You do not have enough BTC on your account.');
+      Toast.show({
+        type: 'error',
+        text1: 'Something went wrong...',
+        text2: 'You do not have enough BTC on your account. 😟'
+      });
+      return;
+    }
+
+    makeTrade({
+      timestamp: Date.now(),
+      eurVolume: props.eurTradeValue!,
+      btcVolume: props.btcTradeValue!,
+      boughtBtc: false,
+      isInitalTransaction: false
+    });
+
+    props.onSellOrBought()
+    Toast.show({
+      type: 'success',
+      text1: 'Transaction Successful 🎉',
+      text2: `You've successfully sold BTC worth ${props.btcTradeValue}! 🚀`
+    });
+  };
+
+  const onBuy = () => {
+    if (!ValidateFields()) return;
+
+    if (props.eurTradeValue! > currentEur) {
+      Toast.show({
+        type: 'error',
+        text1: 'Something went wrong...',
+        text2: 'You do not have enough EUR on your account. 😟'
+      });
+      return;
+    }
+
+    makeTrade({
+      timestamp: Date.now(),
+      eurVolume: props.eurTradeValue!,
+      btcVolume: props.btcTradeValue!,
+      boughtBtc: true,
+      isInitalTransaction: false
+    });
+
+    props.onSellOrBought()
+    Toast.show({
+      type: 'success',
+      text1: 'Purchase Successful 🎉',
+      text2: `You've successfully bought BTC worth ${props.btcTradeValue}! 🚀`
+    });
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -32,7 +111,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   buySellButton: {
     flex: 1,
@@ -41,13 +120,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
-    paddingBlock: 14
+    paddingBlock: 14,
   },
   buySellText: {
     color: 'white',
     fontWeight: 600,
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });
 
 export default BuySellButtons;

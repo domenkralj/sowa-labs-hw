@@ -2,7 +2,7 @@ import {StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import AppText from '../../../AppText/AppText';
 import {max, round, min} from 'lodash';
 import useBtcData from '../../../../hooks/useBtcData/useBtcData';
-import {appColors} from '../../../../utils/global';
+import {appColors} from '../../../../utils/utils';
 
 const GraphLabels = () => {
   const btcData = useBtcData();

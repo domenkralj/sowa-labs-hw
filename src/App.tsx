@@ -1,54 +1,28 @@
 import React from 'react';
 import {
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
+  Button,
+  Platform
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import TopSection from './comp/TopSection/TopSection';
 import TradeSection from './comp/TradeSection/TradeSection';
 import PreviousTransactionsSection from './comp/PreviousTransactionsSection/PreviousTransactionsSection';
 import LoadingSplashScreen from './comp/LoadingSplashScreen/LoadingSplashScreen';
-import IosNotSupportedScreen from './comp/IosNotSupportedScreen/IosNotSupportedScreen';
+import IosNotSupportedScreen from './comp/AppNotSupportedScreen/AppNotSupportedScreen';
 import useAndroidBtcRetrieverModuleHandler from './hooks/useAndroidBtcRetrieverModuleHandler/useAndroidBtcRetrieverModuleHandler';
 import useBtcData from './hooks/useBtcData/useBtcData';
 import AppProviders from './comp/AppProviders/AppProviders';
 import BitcoinGraphSection from './comp/BitcoinGraphSection/BitcoinGraphSection';
 import BitcoinPriceTextsSection from './comp/BitcoinPriceTextsSection/BitcoinPriceTextsSection';
 import BtcLoadingErrorScreen from './comp/BtcLoadingErrorScreen/BtcLoadingErrorScreen';
-
-interface AppLayoutProps {
-  children: React.ReactNode;
-}
-
-const AppLayout = (props: AppLayoutProps) => {
-  return (
-    <SafeAreaView style={styles.mainSafeAreaView}>
-      <StatusBar translucent backgroundColor="transparent" />
-      <ScrollView
-        style={styles.mainScrollView}
-        contentInsetAdjustmentBehavior="automatic">
-        <View style={styles.mainView}>{props.children}</View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
+import useTradesData from './hooks/useTrades/useTrades';
+import AppLayout from './comp/AppLayout/AppLayout';
+import Toast from 'react-native-toast-message';
 
 const App = () => {
-  if (Platform.OS === 'ios')
-    return (
-      <AppLayout>
-        <IosNotSupportedScreen />
-      </AppLayout>
-    );
-
   return (
     <AppProviders>
       <AppLayout>
-        <AppContent />
+        {Platform.OS === 'android' ? <AppContent /> : <IosNotSupportedScreen />}
       </AppLayout>
     </AppProviders>
   );
@@ -56,9 +30,10 @@ const App = () => {
 
 const AppContent = () => {
   useAndroidBtcRetrieverModuleHandler();
+  useTradesData();
   const btcData = useBtcData();
 
-  if (btcData.error) return <BtcLoadingErrorScreen />
+  if (btcData.error) return <BtcLoadingErrorScreen />;
   if (!btcData.btcPrices) return <LoadingSplashScreen />;
 
   return (
@@ -71,18 +46,5 @@ const AppContent = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  mainSafeAreaView: {
-    backgroundColor: Colors.white,
-  },
-  mainScrollView: {
-    height: '100%',
-  },
-  mainView: {
-    backgroundColor: Colors.white,
-    minHeight: '100%',
-  },
-});
 
 export default App;

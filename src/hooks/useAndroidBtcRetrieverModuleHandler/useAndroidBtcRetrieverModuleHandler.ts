@@ -1,8 +1,8 @@
 import {DeviceEventEmitter, NativeModules} from 'react-native';
 import {useEffectOnce} from 'react-use';
 import {useDispatch} from 'react-redux';
-import {setBtcPrices, setBtcPricesLoadingError} from '../../utils/store';
-import { IBtcPriceValueItem } from '../../utils/global';
+import {setBtcPrices, setBtcPricesLoadingError} from '../../utils/btcDataStore';
+import { IBtcPriceValueItem } from '../../utils/utils';
 
 /*
   This hook:

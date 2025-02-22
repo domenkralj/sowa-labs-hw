@@ -1,12 +1,11 @@
 import {StyleSheet, TextInput, View} from 'react-native';
 import AppText from '../../../../../AppText/AppText';
-import {appColors} from '../../../../../../utils/global';
+import {appColors} from '../../../../../../utils/utils';
 import React from 'react';
 
 interface IEurInputProps {
   value: string;
   onChangeValue: (newValue: string) => void;
-  onBlur: () => void;
   isError: boolean;
 }
 
@@ -22,7 +21,6 @@ const EurInput = (props: IEurInputProps) => {
         keyboardType="numeric"
         value={props.value}
         onChangeText={props.onChangeValue}
-        onBlur={props.onBlur}
         placeholder='Enter amount'
       />
       <AppText style={styles.eurText}>EUR</AppText>

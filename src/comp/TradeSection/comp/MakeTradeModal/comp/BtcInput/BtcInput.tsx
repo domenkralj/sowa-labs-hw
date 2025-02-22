@@ -1,11 +1,10 @@
 import {StyleSheet, TextInput, View} from 'react-native';
 import AppText from '../../../../../AppText/AppText';
-import {appColors} from '../../../../../../utils/global';
+import {appColors} from '../../../../../../utils/utils';
 
 interface IBtcInputProps {
   value: string;
   onChangeValue: (newValue: string) => void;
-  onBlur: () => void;
   isError: boolean;
 }
 
@@ -21,7 +20,6 @@ const BtcInput = (props: IBtcInputProps) => {
         keyboardType="numeric"
         value={props.value}
         onChangeText={props.onChangeValue}
-        onBlur={props.onBlur}
         placeholder="Enter amount"
       />
       <AppText style={styles.btcText}>BTC</AppText>

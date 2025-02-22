@@ -1,6 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import AppText from '../../../../../AppText/AppText';
-import { appColors } from '../../../../../../utils/global';
+import { appColors } from '../../../../../../utils/utils';
 
 interface IErrorMessageProps {
   message: string;

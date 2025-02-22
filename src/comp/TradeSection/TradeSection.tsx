@@ -1,6 +1,6 @@
 import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import MakeTradeModal from './comp/MakeTradeModal/MakeTradeModal';
-import {appColors} from '../../utils/global';
+import {appColors} from '../../utils/utils';
 import {useState} from 'react';
 import AppText from '../AppText/AppText';
 

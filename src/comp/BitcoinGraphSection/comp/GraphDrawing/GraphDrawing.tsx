@@ -2,7 +2,7 @@ import {useWindowDimensions} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
 import {Circle} from 'react-native-svg';
 import useBtcData from '../../../../hooks/useBtcData/useBtcData';
-import { appColors } from '../../../../utils/global';
+import { appColors } from '../../../../utils/utils';
 
 const GraphDrawing = () => {
   const windowWidth = useWindowDimensions().width;

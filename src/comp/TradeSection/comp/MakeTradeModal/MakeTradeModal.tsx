@@ -1,10 +1,6 @@
 import {
-  Alert,
-  Button,
   Modal,
-  Pressable,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import CloseModalButton from './comp/CloseModalButton/CloseModalButton';
@@ -13,7 +9,6 @@ import BuySellButtons from './comp/BuySellButtons/BuySellButtons';
 import ErrorMessage from './comp/ErrorMessage/ErrorMessage';
 import EurInput from './comp/EurInput/EurInput';
 import BtcInput from './comp/BtcInput/BtcInput';
-import { formatCashNumber } from '../../../../utils/global';
 import { isNumber } from 'lodash';
 import useBtcData from '../../../../hooks/useBtcData/useBtcData';
 
@@ -25,35 +20,40 @@ interface IMakeTradeModalProps {
 const MakeTradeModal = (props: IMakeTradeModalProps) => {
   const {currentBtcPrice} = useBtcData()
 
-  const [eurTradeValue, setEurTradeValue] = useState<string>("");
-  const [btcTradeValue, setBtcTradeValue] = useState<string>("");
+  const [eurTradeValueString, setEurTradeValueString] = useState<string>("");
+  const [btcTradeValueString, setBtcTradeValue] = useState<string>("");
 
-  const isEurTradeValueInValidFormat = isNumber(Number(eurTradeValue)) && !isNaN(Number(eurTradeValue))
-  const isBtcTradeValueInValidFormat = isNumber(Number(btcTradeValue)) && !isNaN(Number(btcTradeValue))
+  const isEurTradeValueInValidFormat = isNumber(Number(eurTradeValueString)) && !isNaN(Number(eurTradeValueString))
+  const isBtcTradeValueInValidFormat = isNumber(Number(btcTradeValueString)) && !isNaN(Number(btcTradeValueString))
+  const areTradeValuesInValidFormat = isEurTradeValueInValidFormat && isBtcTradeValueInValidFormat
+
+  const eurTradeValueNum = isEurTradeValueInValidFormat ? Number(eurTradeValueString) : undefined
+  const btcTradeValueNum = isEurTradeValueInValidFormat ? Number(btcTradeValueString) : undefined
 
   const [error, setError] = useState<string | undefined>(undefined)
   
-
-  const onEurTradeValueChange = (newValue: string) => {    
+  const onEurTradeValueChange = (newValue: string) => {  
+    setError(undefined)  
     const cleanedValue = newValue.replace(/[^0-9.,]/g, '');
 
     if (!cleanedValue) {
-      setEurTradeValue("")
+      setEurTradeValueString("")
       setBtcTradeValue("")
       return
     }
 
-    setEurTradeValue(cleanedValue)
+    setEurTradeValueString(cleanedValue)
     const numValue = Number(cleanedValue.replace(/[.,]/g, ""))
 
     setBtcTradeValue(String(numValue / currentBtcPrice!))
   }
 
   const onBtcTradeValueChange = (newValue: string) => {
+    setError(undefined)
     const cleanedValue = newValue.replace(/[^0-9.,]/g, '');
 
     if (!cleanedValue) {
-      setEurTradeValue("")
+      setEurTradeValueString("")
       setBtcTradeValue("")
       return
     }
@@ -61,15 +61,7 @@ const MakeTradeModal = (props: IMakeTradeModalProps) => {
     setBtcTradeValue(cleanedValue)
     const numValue = Number(cleanedValue.replace(/[.,]/g, ""))
 
-    setEurTradeValue(String(currentBtcPrice! * numValue))
-  }
-
-  const onEurTradeValueBlur = () => {
-    console.log("onEurTradeValueBlur")
-  }
-
-  const onBtcTradeValueBlur = () => {
-    console.log("onBtcTradeValueBlur")
+    setEurTradeValueString(String(currentBtcPrice! * numValue))
   }
 
   return (
@@ -88,22 +80,25 @@ const MakeTradeModal = (props: IMakeTradeModalProps) => {
             <View style={styles.makeTransactionContainer}>
               <View style={styles.btcEurInputBox}>
                 <EurInput 
-                  value={eurTradeValue}
+                  value={eurTradeValueString}
                   onChangeValue={onEurTradeValueChange}
-                  onBlur={onEurTradeValueBlur}
                   isError={!isEurTradeValueInValidFormat}
                 />
                 <BtcInput 
-                  value={btcTradeValue}
+                  value={btcTradeValueString}
                   onChangeValue={onBtcTradeValueChange}
-                  onBlur={onBtcTradeValueBlur}
                   isError={!isBtcTradeValueInValidFormat}
                 />
               </View>
               { error && <ErrorMessage message={error} />}
               { !isEurTradeValueInValidFormat && <ErrorMessage message="Please enter a valid EUR value." /> }
               { !isBtcTradeValueInValidFormat && <ErrorMessage message="Please enter a valid BTC value." /> }
-              <BuySellButtons />
+              <BuySellButtons
+                eurTradeValue={eurTradeValueNum}
+                btcTradeValue={btcTradeValueNum}
+                onSellOrBought={props.onDismiss}
+                onError={(newError) => setError(newError)}
+              />
             </View>
           </View>
         </View>

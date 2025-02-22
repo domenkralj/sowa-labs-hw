@@ -1,34 +1,23 @@
-import {createSlice, configureStore, PayloadAction} from '@reduxjs/toolkit';
-import {IBtcPriceValueItem} from './global';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {btcDataSlice} from './btcDataStore';
+import {tradesDataPersistedReducer} from './tradesStore';
+import {persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER} from 'redux-persist';
 
-export interface IAppStoreState {
-  btcPrices: IBtcPriceValueItem[] | undefined;
-  btcPricesLoadingError: string | undefined;
-}
-
-const initialState: IAppStoreState = {
-  btcPrices: undefined,
-  btcPricesLoadingError: undefined,
-};
-
-const globalSlice = createSlice({
-  name: 'globalSlice',
-  initialState: initialState,
-  reducers: {
-    setBtcPrices: (state, action: PayloadAction<IBtcPriceValueItem[]>) => {
-      state.btcPrices = action.payload;
-    },
-    setBtcPricesLoadingError: (
-      state,
-      action: PayloadAction<string | undefined>,
-    ) => {
-      state.btcPricesLoadingError = action.payload;
-    },
-  },
+const rootReducer = combineReducers({
+  btcDataStore: btcDataSlice.reducer,
+  tradesStore: tradesDataPersistedReducer,
 });
 
-export const {setBtcPrices, setBtcPricesLoadingError} = globalSlice.actions;
-
-export const globalAppReduxStore = configureStore({
-  reducer: globalSlice.reducer,
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
+
+const persistor = persistStore(store);
+
+export {store, persistor};

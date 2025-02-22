@@ -1,66 +1,35 @@
-import {Button, DeviceEventEmitter, StyleSheet, Text, ToastAndroid, View} from 'react-native';
-import {appColors} from '../../utils/global';
+import {
+  Button,
+  DeviceEventEmitter,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  View,
+} from 'react-native';
+import {appColors} from '../../utils/utils';
 import AppText from '../AppText/AppText';
 import PreviousTransaction from './comp/PreviousTransaction/PreviousTransaction';
-import {NativeModules} from 'react-native';
-import { useEffect } from 'react';
+import useTrades from '../../hooks/useTrades/useTrades';
 
 const PreviousTransactionsSection = () => {
-  const isEmpty = false 
+  const {previousTrades} = useTrades();
+  const noPreviousTransactions = previousTrades?.length === 0;
 
   return (
     <View style={styles.outterContainer}>
       <View style={styles.contentContainer}>
-        {
-          !isEmpty ?
+        {!noPreviousTransactions ? (
           <>
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
-            <PreviousTransaction />
+            {[...previousTrades].reverse().map((trade, i) => (
+              <PreviousTransaction key={i} trade={trade} />
+            ))}
           </>
-          :
+        ) : (
           <AppText style={styles.emptyTransactionsText}>
             No transactions yet 📋 {`\n`}
             Here all your past transactions will be displayed 🚀.
           </AppText>
-        }
+        )}
       </View>
     </View>
   );
@@ -69,7 +38,7 @@ const PreviousTransactionsSection = () => {
 const styles = StyleSheet.create({
   outterContainer: {
     paddingInline: 24,
-    paddingBlock: 16
+    paddingBlock: 16,
   },
   contentContainer: {
     backgroundColor: appColors.lightGray,
@@ -79,12 +48,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   emptyTransactionsText: {
     fontSize: 12,
     textAlign: 'center',
-  }
+  },
 });
 
 export default PreviousTransactionsSection;

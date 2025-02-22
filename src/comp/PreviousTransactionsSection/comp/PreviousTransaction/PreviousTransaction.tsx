@@ -1,15 +1,35 @@
-import { StyleSheet, View } from "react-native";
-import AppText from "../../../AppText/AppText";
+import {StyleSheet, View} from 'react-native';
+import AppText from '../../../AppText/AppText';
+import {
+  formatCashNumber,
+  formatTime,
+  ITradeItem,
+} from '../../../../utils/utils';
+import {round} from 'lodash';
 
-const PreviousTransaction = () => {
+type TPreviousTransactionProps = {
+  trade: ITradeItem;
+};
+
+const PreviousTransaction = (props: TPreviousTransactionProps) => {
+  const buySellText = (() => {
+    if (props.trade.isInitalTransaction) return 'Gif';
+    if (props.trade.boughtBtc) return 'Buy';
+    return 'Sell';
+  })();
 
   return (
     <View style={styles.mainContainer}>
-      <AppText style={styles.descriptionText}>Buy</AppText>
-      <AppText style={styles.mainText}>+0.0031 BTC / -50.23 €</AppText>
-      <AppText>12:58:58</AppText>
+      <AppText style={styles.descriptionText}>{buySellText}</AppText>
+      <AppText style={styles.mainText}>
+        {props.trade.boughtBtc ? '+' : '-'}
+        {round(props.trade.btcVolume, 6)} BTC /
+        {props.trade.boughtBtc ? ' -' : ' +'}
+        {formatCashNumber(props.trade.eurVolume)} €
+      </AppText>
+      <AppText>{formatTime(props.trade.timestamp)}</AppText>
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
@@ -18,15 +38,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%'
+    width: '100%',
   },
   mainText: {
     fontSize: 12,
-    fontWeight: 600
+    fontWeight: 600,
   },
   descriptionText: {
-    fontSize: 12
-  }
+    fontSize: 12,
+  },
 });
 
 export default PreviousTransaction;

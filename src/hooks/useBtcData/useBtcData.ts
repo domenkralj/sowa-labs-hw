@@ -16,13 +16,15 @@ const useBtcData = () => {
     dispatch(setBtcPricesLoadingErrorStore(error))
   }
 
+  console.log("btcPrices", btcPrices)
+
   return {
     error: btcPricesLoadingError,
     setBtcPricesLoadingError,
     btcPrices,
     setBtcPrices,
     currentBtcPrice: btcPrices?.[btcPrices.length - 1].priceInEur,
-    weekAgoBtcPrice: btcPrices?.[btcPrices.length - 8]?.priceInEur
+    hourAgoBtcPrice: btcPrices?.[btcPrices.length - 13]?.priceInEur
   }
 }
 

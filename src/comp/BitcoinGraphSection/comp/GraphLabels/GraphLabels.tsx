@@ -9,7 +9,7 @@ const GraphLabels = () => {
 
   const dataItems = btcData.btcPrices?.map(btcItem => btcItem.priceInEur) || [];
   const currentPriceValue = btcData.currentBtcPrice || 0;
-  const weekAgoPriceValue = btcData.weekAgoBtcPrice || 0;
+  const weekAgoPriceValue = btcData.hourAgoBtcPrice || 0;
   const maxValue = max(dataItems) || 0;
   const minValue = min(dataItems) || 0;
   const minValueRounded = round(minValue, -2);

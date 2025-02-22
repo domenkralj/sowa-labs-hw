@@ -1,6 +1,6 @@
 import {DeviceEventEmitter, NativeModules} from 'react-native';
 import {useEffectOnce} from 'react-use';
-import { IBtcPriceValueItem } from '../../utils/utils';
+import {IBtcPriceValueItem} from '../../utils/utils';
 import useBtcData from '../useBtcData/useBtcData';
 
 /*
@@ -11,27 +11,26 @@ import useBtcData from '../useBtcData/useBtcData';
 const useAndroidBtcRetrieverModuleHandler = () => {
   const {BitconRetrieverModule} = NativeModules;
 
-  const {setBtcPrices, setBtcPricesLoadingError} = useBtcData()
+  const {setBtcPrices, setBtcPricesLoadingError} = useBtcData();
 
   useEffectOnce(() => {
-
     const priceListener = DeviceEventEmitter.addListener(
       'bitcoinPricesUpdated',
       (bitcoinPrices: IBtcPriceValueItem[]) => {
-        console.log("bitcoinPricesUpdated called")
-        setBtcPrices(bitcoinPrices)
-        setBtcPricesLoadingError(undefined)
+        console.log('bitcoinPricesUpdated called');
+        setBtcPrices(bitcoinPrices);
+        setBtcPricesLoadingError(undefined);
       },
     );
 
     const errorListener = DeviceEventEmitter.addListener(
       'bitcoinPriceError',
       errorMessage => {
-        console.log("bitcoinPriceError called")
-        setBtcPricesLoadingError(errorMessage)
+        console.log('bitcoinPriceError called');
+        setBtcPricesLoadingError(errorMessage);
       },
     );
-    
+
     BitconRetrieverModule.startFetchingBitcoinPrice();
 
     return () => {

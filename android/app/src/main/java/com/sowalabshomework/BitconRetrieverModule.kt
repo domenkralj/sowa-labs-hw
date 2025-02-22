@@ -46,7 +46,7 @@ class BitconRetrieverModule(reactContext: ReactApplicationContext) : ReactContex
   fun getBitcoinPrice() {
 
     val request = Request.Builder()
-      .url("https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=eur&days=30&interval=daily")
+      .url("https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=eur&days=1")
       .build()
 
     Thread {

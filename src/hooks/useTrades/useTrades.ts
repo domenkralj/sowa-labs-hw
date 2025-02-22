@@ -19,11 +19,7 @@ const useTrades = () => {
     0
   )
 
-  const makeTrade = (newTrade: ITradeItem) => {
-    dispatch(addTrade(newTrade));
-  };
-
-  console.log("trades", trades)
+  const makeTrade = (newTrade: ITradeItem) => dispatch(addTrade(newTrade));
 
   return {
     previousTrades: trades,

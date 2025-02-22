@@ -7,7 +7,10 @@ import { appColors } from '../../../../utils/utils';
 const GraphDrawing = () => {
   const windowWidth = useWindowDimensions().width;
 
-  /* The react-native-chart-kit library does not natively support the removal of padding or margins.  Therefore, padding is simulated by adjusting the chart's width, which must be dynamically calculated based on the library's internal layout. */
+  /* 
+  The react-native-chart-kit library does not natively support the removal of padding or margins.  
+  Therefore, padding is simulated by adjusting the chart's width, which must be dynamically calculated based on the library's internal layout. 
+  */
   const chartWidth = (() => {
     if (windowWidth > 1000) return windowWidth - 65
     if (windowWidth >= 800) return windowWidth - 75

@@ -5,6 +5,8 @@ export const appColors = {
   graphGreen: '#3FBEBE',
   lightGreen: '#00BF13',
   lightGray: '#F3F3F3',
+  lightBlue: '#74CDDC',
+  lightRed: '#FEEEEE'
 };
 
 export const MAX_TRADE_VALUE = 10 ** 5;

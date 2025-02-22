@@ -1,5 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import AppText from '../../../../../AppText/AppText';
+import { appColors } from '../../../../../../utils/global';
 
 interface IErrorMessageProps {
   message: string;
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     width: 'auto',
-    backgroundColor: '#FEEEEE',
+    backgroundColor: appColors.lightRed,
     borderRadius: 4,
     padding: 12,
     justifyContent: 'center',

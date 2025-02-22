@@ -6,10 +6,9 @@ export const appColors = {
   lightGreen: '#00BF13',
   lightGray: '#F3F3F3',
   lightBlue: '#74CDDC',
-  lightRed: '#FEEEEE'
+  lightRed: '#FEEEEE',
+  red: "#FF0000"
 };
-
-export const MAX_TRADE_VALUE = 10 ** 5;
 
 export interface IBtcPriceValueItem {
   priceInEur: number;

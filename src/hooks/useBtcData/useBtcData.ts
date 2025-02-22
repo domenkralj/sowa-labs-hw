@@ -19,7 +19,7 @@ const useBtcData = () => {
   return {
     error: btcPricesLoadingError,
     setBtcPricesLoadingError,
-    btcPrices: btcPrices,
+    btcPrices,
     setBtcPrices,
     currentBtcPrice: btcPrices?.[btcPrices.length - 1].priceInEur,
     weekAgoBtcPrice: btcPrices?.[btcPrices.length - 8]?.priceInEur

@@ -22,7 +22,7 @@ const BuySellButtons = (props: IBuySellButtonsProps) => {
       return false;
     }
     if (!isNumber(props.btcTradeValue) || props.btcTradeValue! <= 0) {
-      props.onError('Please select BTC amount.');
+      props.onError('Please enter BTC amount.');
       return false;
     }
     return true;

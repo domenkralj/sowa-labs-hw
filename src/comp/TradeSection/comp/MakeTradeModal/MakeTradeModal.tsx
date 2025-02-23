@@ -1,119 +1,27 @@
 import {Modal, StyleSheet, View} from 'react-native';
+import MakeTrade from './comp/MakeTrade/MakeTrade';
 import CloseModalButton from './comp/CloseModalButton/CloseModalButton';
-import {useEffect, useState} from 'react';
-import BuySellButtons from './comp/BuySellButtons/BuySellButtons';
-import ErrorMessage from './comp/ErrorMessage/ErrorMessage';
-import EurInput from './comp/EurInput/EurInput';
-import BtcInput from './comp/BtcInput/BtcInput';
-import {isNumber} from 'lodash';
-import useBtcData from '../../../../hooks/useBtcData/useBtcData';
-import Toast from 'react-native-toast-message';
 
-interface IMakeTradeModalProps {
+interface IMakeTradeModal2Props {
   isOpen: boolean;
   onDismiss: () => void;
 }
 
-const MakeTradeModal = (props: IMakeTradeModalProps) => {
-  const {currentBtcPrice} = useBtcData();
-
-  const [eurTradeValueString, setEurTradeValueString] = useState<string>('');
-  const [btcTradeValueString, setBtcTradeValueString] = useState<string>('');
-
-  const isEurTradeValueInValidFormat =
-    isNumber(Number(eurTradeValueString)) &&
-    !isNaN(Number(eurTradeValueString)) &&
-    Number(btcTradeValueString) > 0;
-  const isBtcTradeValueInValidFormat =
-    isNumber(Number(btcTradeValueString)) &&
-    !isNaN(Number(btcTradeValueString)) &&
-    Number(btcTradeValueString) > 0;
-
-  const eurTradeValueNum = isEurTradeValueInValidFormat
-    ? Number(eurTradeValueString)
-    : undefined;
-  const btcTradeValueNum = isEurTradeValueInValidFormat
-    ? Number(btcTradeValueString)
-    : undefined;
-
-  const [error, setError] = useState<string | undefined>(undefined);
-
-  const onEurTradeValueChange = (newValue: string) => {
-    setError(undefined);
-    const cleanedValue = newValue.replace(/[^0-9.,]/g, '');
-
-    if (!cleanedValue) {
-      setEurTradeValueString('');
-      setBtcTradeValueString('');
-      return;
-    }
-
-    setEurTradeValueString(cleanedValue);
-    const numValue = Number(cleanedValue.replace(/[.,]/g, ''));
-
-    setBtcTradeValueString(String(numValue / currentBtcPrice!));
-  };
-
-  const onBtcTradeValueChange = (newValue: string) => {
-    setError(undefined);
-    const cleanedValue = newValue.replace(/[^0-9.,]/g, '');
-
-    if (!cleanedValue) {
-      setEurTradeValueString('');
-      setBtcTradeValueString('');
-      return;
-    }
-
-    setBtcTradeValueString(cleanedValue);
-    const numValue = Number(cleanedValue.replace(/[,]/g, ''));
-
-    setEurTradeValueString(String(currentBtcPrice! * numValue));
-  };
-
-  // If the price changes while the modal is open and values are already entered in the inputs,
-  // recalculate the values accordingly.
-  useEffect(() => {
-    if (isEurTradeValueInValidFormat && isBtcTradeValueInValidFormat) {
-      setBtcTradeValueString(String(eurTradeValueNum! / currentBtcPrice!));
-    }
-  }, [currentBtcPrice]);
-
+const MakeTradeModal = (props: IMakeTradeModal2Props) => {
   return (
     <Modal
       visible={props.isOpen}
       animationType="fade"
       statusBarTranslucent
       transparent
-      onRequestClose={() => props.onDismiss()}>
+      onRequestClose={props.onDismiss}>
       <View style={styles.modalOverlay}>
         <View style={styles.modalView}>
           <View style={styles.modalContent}>
             <View style={styles.topCloseContainer}>
-              <CloseModalButton onPress={() => props.onDismiss()} />
+              <CloseModalButton onPress={props.onDismiss} />
             </View>
-            <View style={styles.makeTransactionContainer}>
-              <View style={styles.btcEurInputBox}>
-                <EurInput
-                  value={eurTradeValueString}
-                  onChangeValue={onEurTradeValueChange}
-                />
-                <BtcInput
-                  value={btcTradeValueString}
-                  onChangeValue={onBtcTradeValueChange}
-                />
-              </View>
-              {error && <ErrorMessage message={error} />}
-              <BuySellButtons
-                eurTradeValue={eurTradeValueNum}
-                btcTradeValue={btcTradeValueNum}
-                onSellOrBought={() => {
-                  setEurTradeValueString('');
-                  setBtcTradeValueString('');
-                  props.onDismiss();
-                }}
-                onError={newError => setError(newError)}
-              />
-            </View>
+            <MakeTrade onDismiss={props.onDismiss} />
           </View>
         </View>
       </View>
@@ -157,7 +65,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     gap: 32,
-    width: '100%',
+    width: 'auto',
   },
   btcEurInputBox: {
     marginTop: 12,

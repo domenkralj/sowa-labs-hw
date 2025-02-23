@@ -1,8 +1,8 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import MakeTradeModal from './comp/MakeTradeModal/MakeTradeModal';
 import {appColors} from '../../utils/utils';
 import {useState} from 'react';
 import AppText from '../AppText/AppText';
+import MakeTradeModal from './comp/MakeTradeModal/MakeTradeModal';
 
 const TradeSection = () => {
   const [isTradeModalOpen, setIsTradeModalOpen] = useState<boolean>(false);

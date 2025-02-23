@@ -12,8 +12,8 @@ const GraphDrawing = () => {
   Therefore, padding is simulated by adjusting the chart's width, which must be dynamically calculated based on the library's internal layout. 
   */
   const chartWidth = (() => {
-    if (windowWidth > 1000) return windowWidth - 65
-    if (windowWidth >= 800) return windowWidth - 75
+    if (windowWidth > 1000) return windowWidth - 85
+    if (windowWidth >= 800) return windowWidth - 95
     if (windowWidth >= 600) return windowWidth - 85
 
     return windowWidth - 95;

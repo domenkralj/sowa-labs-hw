@@ -16,8 +16,6 @@ const useBtcData = () => {
     dispatch(setBtcPricesLoadingErrorStore(error))
   }
 
-  console.log("btcPrices", btcPrices)
-
   return {
     error: btcPricesLoadingError,
     setBtcPricesLoadingError,

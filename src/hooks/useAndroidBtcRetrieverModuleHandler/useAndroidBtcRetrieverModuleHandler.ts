@@ -1,7 +1,7 @@
 import {DeviceEventEmitter, NativeModules} from 'react-native';
-import {useEffectOnce} from 'react-use';
 import {IBtcPriceValueItem} from '../../utils/utils';
 import useBtcData from '../useBtcData/useBtcData';
+import useEffectOnce from '../useEffectOnce/useEffectOnce';
 
 /*
   This hook:
@@ -12,6 +12,7 @@ const useAndroidBtcRetrieverModuleHandler = () => {
   const {BitconRetrieverModule} = NativeModules;
 
   const {setBtcPrices, setBtcPricesLoadingError} = useBtcData();
+
 
   useEffectOnce(() => {
     const priceListener = DeviceEventEmitter.addListener(
